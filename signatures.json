@@ -346,7 +346,6 @@
       }
     ]
   },
-
   {
     "type": "wasm",
     "ext": "wasm",
@@ -355,7 +354,6 @@
       { "type": "equal", "start": 0, "end": 4, "bytes": "0061736d" }
     ]
   },
-
   {
     "type": "asf",
     "ext": "asf",
@@ -386,7 +384,6 @@
       }
     ]
   },
-
   {
     "type": "mpg",
     "ext": "mpg",

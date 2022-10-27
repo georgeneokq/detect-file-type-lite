@@ -1,6 +1,6 @@
 {
-  "name": "detect-file-type",
-  "version": "0.2.8",
+  "name": "detect-file-type-lite",
+  "version": "0.0.1",
   "description": "Detect file type by signature",
   "main": "lib/index.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "prepublishOnly": "npm test && npm run build",
     "test": "mocha --require @babel/register tests/test.js"
   },
+  "types": "index.d.ts",
   "files": [
     "lib/index.js",
     "signatures.json"
@@ -17,7 +18,13 @@
     "email": "dima@paloskin.me",
     "url": "http://paloskin.me"
   },
-  "repository": "dimapaloskin/detect-file-type",
+  "contributors": [
+    {
+      "name": "George Neo",
+      "email": "george.neokq@gmail.com"
+    }
+  ],
+  "repository": "georgeneokq/detect-file-type-lite",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -28,7 +35,6 @@
     "detect",
     "check",
     "uint8array",
-    "check",
     "buffer"
   ],
   "license": "WTFPL",
