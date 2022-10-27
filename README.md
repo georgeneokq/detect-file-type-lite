@@ -1,8 +1,10 @@
-# detect-file-type [![Build Status](https://travis-ci.org/dimapaloskin/detect-file-type.svg?branch=master)](https://travis-ci.org/dimapaloskin/detect-file-type)
+# detect-file-type
 
-> Detect file type by signatures. [file-type inspired](https://github.com/sindresorhus/file-type)
+> Detect file type by signatures. Fork of [detect-file-type](https://github.com/dimapaloskin/detect-file-type).
 
-### Supported types (will be updated)
+Removed dependency on node's `fs` module, in hopes of making this package usable on the client-side.
+
+### Supported types
   jpg, png, gif, webp, flif, cr2, tif, bmp, jxr, psd, zip, epub, xpi, tar, rar, gz, bz2, 7z, dmg, mov, mp4, m4v, m4a, 3g2, 3gp, avi, wav, qcp, mid, mkv, webm, wasm, asf, wmv, wma, mpg, mp3, opus, ogg, ogv, oga, ogm, ogx, spx, flac, ape, wv, amr, pdf, exe, swf, rtf, woff, woff2, eot, ttf, otf, ico, cur, flv, ps, xz, sqlite, nes, dex, crx, elf, cab, deb, ar, rpm, Z, lz, msi, mxf, mts, blend, bpg, jp2, jpx, jpm, mj2, aif, xml, svg, mobi, heic, ktx, dcm, mpc, ics, glb, pcap, html
 
 ## Installation
@@ -14,9 +16,11 @@
 ## Usage
 
 ```js
-  var detect = require('detect-file-type');
+  import { readFile } from 'fs/promises'
+  import { fromBuffer } from 'detect-file-type-lite'
 
-  detect.fromFile('./image.jpg', function(err, result) {
+  const buffer = await readFile('img.jpg')
+  fromBuffer(buffer, function(err, result) {
 
     if (err) {
       return console.log(err);
@@ -28,21 +32,9 @@
 
 ## API
 
-### fromFile(filePath, bufferLength?, callback)
-Detect file type from hard disk
-- `filePath` - path to file
-- `bufferLength` - (optional) Buffer size (in bytes) starting from the start of file. By default 500. If size of file less than 500 bytes then param the same as size of the file
-- `callback`
-
 ### fromBuffer(buffer, callback)
 Detect file type from buffer
 - `buffer` - uint8array/Buffer
-- `callback`
-
-### fromFd(fd, bufferLength?, callback)
-Detect file type from buffer
-- `fd` - file descriptor
-- `bufferLength` - (optional) Buffer size (in bytes) starting from the start of fd. By default 500. If size of file less than 500 bytes then param the same as size of the file
 - `callback`
 
 ### addSignature(siganture)
@@ -58,6 +50,7 @@ This method needed for more complicated cases like html or xml for example. Trul
 ```js
 const detect = require('detect-file-type');
 const isHtml = require('is-html');
+const fs = require('fs/promises')
 
 detect.addCustomFunction((buffer) => {
 
@@ -72,7 +65,8 @@ detect.addCustomFunction((buffer) => {
   return false;
 });
 
-detect.fromFile('./some.html', (err, result) => {
+const buffer = await fs.readFile('./some.html')
+detect.fromBuffer(buffer, (err, result) => {
   
   if (err) {
     return console.log(err);
@@ -82,7 +76,7 @@ detect.fromFile('./some.html', (err, result) => {
 });
 ```
 
-**Note**: custom function should be pure (without any async operations)
+**Note**: Custom function should be pure (without any async operations)
 
 ## Signature and creating your own signatures
 Detecting of file type work via signatures.
@@ -159,8 +153,6 @@ The `default` type is special and is used as a fallback when a set of `or` rules
 - `id` - id to assign to the result (reference later with `search_ref`)
 - `start`/`end` - range to search in
 - `bytes` - bytes to search for
-
-[Documentation in Russian](README_RU.md)
 
 ## License
 
