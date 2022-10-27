@@ -1,4 +1,3 @@
-import fs from 'fs';
 import signatures from '../signatures.json';
 import Jschardet from 'jschardet';
 import Iconv from 'iconv-lite';
@@ -24,70 +23,6 @@ let validatedSignaturesCache = false;
 /** */
 
 class DetectFileType {
-
-  /**
-   * @param {string} filePath 
-   * @param {number=} bufferLength 
-   * @param {function(Error=,FileTypeResult)} callback 
-   */
-  static fromFile(filePath, bufferLength, callback) {
-
-    if (typeof bufferLength === 'function') {
-      callback = bufferLength;
-      bufferLength = undefined;
-    }
-
-    DetectFileType._getFileSize(filePath, (err, fileSize) => {
-
-      if (err) {
-        return callback(err);
-      }
-
-      fs.open(filePath, 'r', (err, fd) => {
-
-        if (err) {
-          return callback(err);
-        }
-
-        DetectFileType.fromFd(
-          fd,
-          Math.min(bufferLength || DEFAULT_BUFFER_SIZE, fileSize),
-          callback);
-      });
-    });
-  }
-
-  /**
-   * @param {number} fd 
-   * @param {number=} bufferLength 
-   * @param {function(Error=,FileTypeResult)} callback 
-   */
-  static fromFd(fd, bufferLength, callback) {
-
-    if (typeof bufferLength === 'function') {
-      callback = bufferLength;
-      bufferLength = undefined;
-    }
-
-    let bufferSize = bufferLength;
-    if (!bufferSize) {
-      bufferSize = DEFAULT_BUFFER_SIZE;
-    }
-
-    const buffer = new Buffer(bufferSize);
-
-    fs.read(fd, buffer, 0, bufferSize, 0, (err, data) => {
-
-      fs.close(fd, noopCallback);
-
-      if (err) {
-        return callback(err);
-      }
-
-      DetectFileType.fromBuffer(buffer, callback);
-    });
-  }
-
   /**
    * @param {Buffer} buffer 
    * @param {function(Error=,FileTypeResult)} callback 
@@ -97,7 +32,7 @@ class DetectFileType {
     let result = null;
 
     if (!validatedSignaturesCache) {
-      validatedSignaturesCache = DetectFileType._validateSigantures();
+      validatedSignaturesCache = DetectFileType._validateSignatures();
     }
 
     if (Array.isArray(validatedSignaturesCache)) {
@@ -298,7 +233,7 @@ class DetectFileType {
   }
 
   /** @private */
-  static _validateSigantures() {
+  static _validateSignatures() {
 
     let invalidSignatures = signatures
         .map((signature) => {
@@ -395,17 +330,6 @@ class DetectFileType {
       hasExt: valid.some(x => x.hasExt),
       hasMime: valid.some(x => x.hasMime),
     };
-  }
-
-  /** @private */
-  static _getFileSize(filePath, callback) {
-    fs.stat(filePath, (err, stat) => {
-      if (err) {
-        return callback(err);
-      }
-
-      return callback(null, stat.size);
-    });
   }
 
   /** @private */
