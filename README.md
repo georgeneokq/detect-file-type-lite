@@ -2,7 +2,7 @@
 
 > Detect file type by signatures. Fork of [detect-file-type](https://github.com/dimapaloskin/detect-file-type).
 
-Removed dependency on node's `fs` module, in hopes of making this package usable on the client-side.
+Removed dependency on node's `fs` module to enable this package to be used on browsers.
 
 ### Supported types
   jpg, png, gif, webp, flif, cr2, tif, bmp, jxr, psd, zip, epub, xpi, tar, rar, gz, bz2, 7z, dmg, mov, mp4, m4v, m4a, 3g2, 3gp, avi, wav, qcp, mid, mkv, webm, wasm, asf, wmv, wma, mpg, mp3, opus, ogg, ogv, oga, ogm, ogx, spx, flac, ape, wv, amr, pdf, exe, swf, rtf, woff, woff2, eot, ttf, otf, ico, cur, flv, ps, xz, sqlite, nes, dex, crx, elf, cab, deb, ar, rpm, Z, lz, msi, mxf, mts, blend, bpg, jp2, jpx, jpm, mj2, aif, xml, svg, mobi, heic, ktx, dcm, mpc, ics, glb, pcap, html
@@ -20,24 +20,17 @@ Removed dependency on node's `fs` module, in hopes of making this package usable
   import { fromBuffer } from 'detect-file-type-lite'
 
   const buffer = await readFile('img.jpg')
-  fromBuffer(buffer, function(err, result) {
-
-    if (err) {
-      return console.log(err);
-    }
-
-    console.log(result); // { ext: 'jpg', mime: 'image/jpeg' }
-  });
+  const result = fromBuffer(buffer);
+  console.log(result.ext)  // jpg
 ```
 
 ## API
 
-### fromBuffer(buffer, callback)
+### fromBuffer(buffer)
 Detect file type from buffer
 - `buffer` - uint8array/Buffer
-- `callback`
 
-### addSignature(siganture)
+### addSignature(signature)
 Add new signature for file type detecting
 - `signature` - a signature. See section about it below
 
@@ -45,35 +38,34 @@ Add new signature for file type detecting
 Add custom function which receive buffer and trying to detect file type.
 - `fn` - function which receive buffer
 
-This method needed for more complicated cases like html or xml for example. Truly uncomfortable to detect html via signatures because html format has a lot of "magic numbers" in the different places. So you can install [is-html](https://www.npmjs.com/package/is-html) package for example and use its functionality.
+This method needed for more complicated cases like DLL for example. A DLL file will be detected as a normal EXE file, unless you perform deeper checks on its headers.
 
 ```js
 const detect = require('detect-file-type');
-const isHtml = require('is-html');
 const fs = require('fs/promises')
 
-detect.addCustomFunction((buffer) => {
+FileTypeDetector.addCustomFunction((buffer: Buffer) => {
+  if(buffer.length < 2) return false
+  
+  const mzHeader = Buffer.from([0x4D, 0x5A])
+  if(buffer.compare(mzHeader, 0, mzHeader.length, 0, mzHeader.length) != 0) return false
 
-  const str = buffer.toString();
-  if (isHtml(str)) {
+  const PE_HEADER_OFFSET = buffer.readUInt32LE(0x3c)
+  const CHARACTERISTICS_OFFSET = PE_HEADER_OFFSET + 0x16
+  const characteristics = buffer.readUInt16LE(CHARACTERISTICS_OFFSET)
+  // IMAGE_FILE_DLL == 0x2000
+  if((characteristics & 0x2000) === 0x2000) {
     return {
-      ext: 'html',
-      mime: 'text/html'
+      ext: 'dll',
+      mime: 'application/octet-stream'
     }
   }
+  return false
+})
 
-  return false;
-});
-
-const buffer = await fs.readFile('./some.html')
-detect.fromBuffer(buffer, (err, result) => {
-  
-  if (err) {
-    return console.log(err);
-  }
-  
-  console.log(result); // { ext: 'html', mime: 'text/html' }
-});
+const buf = await fs.readFile('winrsmgr.dll')
+const res = FileTypeDetector.fromBuffer(buf)
+console.log(res)  // { ext: 'dll', mime: 'application/octet-stream' }
 ```
 
 **Note**: Custom function should be pure (without any async operations)

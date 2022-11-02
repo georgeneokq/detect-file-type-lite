@@ -26,15 +26,8 @@ export type FileTypeResult = {
   iana?: string;
 };
 
-export type Callback = (err?: Error, type?: FileTypeResult) => void
-
-export type CustomFunction = (buffer: Buffer | Uint8Array) => FileTypeResult | Boolean
-
 /** @type {(function(Buffer):FileTypeResult)[]} */
-const customFunctions = [];
-
-const noopCallback = () => {};
-const DEFAULT_BUFFER_SIZE = 500;
+const customFunctions: ((buffer: Buffer) => FileTypeResult | Boolean)[] = [];
 
 const iconvOptions = {
   stripBOM: true,
@@ -50,33 +43,42 @@ let validatedSignaturesCache = false;
  */
 /** */
 
-export default class DetectFileType {
+export class FileTypeDetector {
   /**
-   * @param {Buffer} buffer 
+   * @param {Buffer} buffer
    * @param {function(Error=,FileTypeResult)} callback 
    */
-  static fromBuffer(buffer: Buffer | Uint8Array, callback: Callback) {
+  static fromBuffer(buffer: Buffer | Uint8Array): FileTypeResult {
 
     let result = null;
 
-    if (!validatedSignaturesCache) {
-      validatedSignaturesCache = DetectFileType._validateSignatures();
-    }
-
-    if (Array.isArray(validatedSignaturesCache)) {
-      return callback(validatedSignaturesCache);
-    }
+    if (!validatedSignaturesCache)
+      validatedSignaturesCache = FileTypeDetector._validateSignatures();
 
     if (!(buffer instanceof Buffer))
       buffer = Buffer.from(buffer);
+      
+    // Run custom functions first
+    customFunctions.every((fn) => {
+      const fnResult = fn(buffer);
+      if (fnResult) {
+        console.log(fnResult)
+        result = fnResult;
+        return false;
+      };
+      return true;
+    });
+
+    if(result)
+      return result
 
     signatures.every((signature) => {
-      let detection = DetectFileType._detect(buffer, signature.rules);
+      let detection = FileTypeDetector._detect(buffer, signature.rules);
 
       if (!detection && signature.recode_text === true) {
-        let textBuffer = DetectFileType._getTextBuffer(buffer);
+        let textBuffer = FileTypeDetector._getTextBuffer(buffer);
         if (textBuffer !== null) {
-          detection = DetectFileType._detect(textBuffer, signature.rules);
+          detection = FileTypeDetector._detect(textBuffer, signature.rules);
         }
       }
 
@@ -84,25 +86,14 @@ export default class DetectFileType {
         delete buffer.textRecoded;
 
       if (detection) {
-        result = DetectFileType._getRuleDetection({}, signature, detection);
+        result = FileTypeDetector._getRuleDetection({}, signature, detection);
         return false;
       }
 
       return true;
     });
 
-    if (result === null) {
-      customFunctions.every((fn) => {
-        const fnResult = fn(buffer);
-        if (fnResult) {
-          result = fnResult;
-          return false;
-        };
-        return true;
-      });
-    }
-
-    callback(null, result);
+    return result
   }
 
   static addSignature(signature: Signature) {
@@ -111,7 +102,7 @@ export default class DetectFileType {
   }
 
   /** @param {function(Buffer):FileTypeResult} fn */
-  static addCustomFunction(fn: CustomFunction) {
+  static addCustomFunction(fn: (buffer: Buffer) => FileTypeResult | Boolean) {
     customFunctions.push(fn);
   }
 
@@ -402,5 +393,4 @@ export default class DetectFileType {
   }
 }
 
-/** @type {typeof DetectFileType} */
-module.exports = DetectFileType;
+export default FileTypeDetector
