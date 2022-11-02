@@ -44,12 +44,7 @@ let validatedSignaturesCache = false;
 /** */
 
 export class FileTypeDetector {
-  /**
-   * @param {Buffer} buffer
-   * @param {function(Error=,FileTypeResult)} callback 
-   */
-  static fromBuffer(buffer: Buffer | Uint8Array): FileTypeResult {
-
+  static fromBuffer(buffer: Buffer | Uint8Array): FileTypeResult | null {
     let result = null;
 
     if (!validatedSignaturesCache)
@@ -93,6 +88,7 @@ export class FileTypeDetector {
       return true;
     });
 
+    // If no signatures found, the function returns null
     return result
   }
 
