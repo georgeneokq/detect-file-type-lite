@@ -11,7 +11,7 @@
   "types": "index.d.ts",
   "files": [
     "lib/index.js",
-    "signatures.json"
+    "lib/signatures.json"
   ],
   "author": {
     "name": "Dmitry Pavlovsky",

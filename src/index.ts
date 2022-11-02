@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import signatures from '../signatures.json';
+import signatures from './signatures.json';
 import Jschardet from 'jschardet';
 import Iconv from 'iconv-lite';
 
