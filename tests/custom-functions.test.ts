@@ -13,8 +13,7 @@ describe('custom function', () => {
           mime: 'text/html'
         }
       }
-
-      return false;
+      return false
     });
 
     const buffer = await readFile('./files/fixture-strong-html.html')

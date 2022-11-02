@@ -20,20 +20,15 @@ export type Signature = {
   desc?: string;
 }
 
-export type FileType = {
-  ext: string;
-  mime: string;
-};
-
 export type FileTypeResult = {
   ext: string;
   mime: string;
   iana?: string;
 };
 
-export type Callback = (err?: Error, type?: FileType) => void
+export type Callback = (err?: Error, type?: FileTypeResult) => void
 
-export type CustomFunction = (buffer: Buffer | Uint8Array) => FileTypeResult
+export type CustomFunction = (buffer: Buffer | Uint8Array) => FileTypeResult | Boolean
 
 /** @type {(function(Buffer):FileTypeResult)[]} */
 const customFunctions = [];
