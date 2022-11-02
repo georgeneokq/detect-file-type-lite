@@ -1,6 +1,39 @@
+// @ts-nocheck
+
 import signatures from '../signatures.json';
 import Jschardet from 'jschardet';
 import Iconv from 'iconv-lite';
+
+export type Rule = {
+  type: string;
+  start?: number;
+  and?: number;
+  bytes?: string;
+  rules?: Rule[];
+};
+
+export type Signature = {
+  type: string;
+  ext?: string;
+  mime?: string;
+  rules: Rule[]
+  desc?: string;
+}
+
+export type FileType = {
+  ext: string;
+  mime: string;
+};
+
+export type FileTypeResult = {
+  ext: string;
+  mime: string;
+  iana?: string;
+};
+
+export type Callback = (err?: Error, type?: FileType) => void
+
+export type CustomFunction = (buffer: Buffer | Uint8Array) => FileTypeResult
 
 /** @type {(function(Buffer):FileTypeResult)[]} */
 const customFunctions = [];
@@ -22,12 +55,12 @@ let validatedSignaturesCache = false;
  */
 /** */
 
-class DetectFileType {
+export default class DetectFileType {
   /**
    * @param {Buffer} buffer 
    * @param {function(Error=,FileTypeResult)} callback 
    */
-  static fromBuffer(buffer, callback) {
+  static fromBuffer(buffer: Buffer | Uint8Array, callback: Callback) {
 
     let result = null;
 
@@ -77,18 +110,18 @@ class DetectFileType {
     callback(null, result);
   }
 
-  static addSignature(signature) {
+  static addSignature(signature: Signature) {
     validatedSignaturesCache = false;
     signatures.push(signature);
   }
 
   /** @param {function(Buffer):FileTypeResult} fn */
-  static addCustomFunction(fn) {
+  static addCustomFunction(fn: CustomFunction) {
     customFunctions.push(fn);
   }
 
   /** @private */
-  static _detect(buffer, rules, type, searchData, tryTextBuffer) {
+  private static _detect(buffer, rules, type, searchData) {
     if (!type) {
       type = 'and';
     }
@@ -214,7 +247,7 @@ class DetectFileType {
   }
 
   /** @private */
-  static _isReturnFalse(isDetected, type) {
+  private static _isReturnFalse(isDetected, type) {
     if (!isDetected && type === 'and') {
       return false;
     }
@@ -227,13 +260,13 @@ class DetectFileType {
   }
 
   /** @private */
-  static _validateRuleType(rule) {
+  private static _validateRuleType(rule) {
     const types = ['or', 'and', 'contains', 'notContains', 'equal', 'notEqual', 'default'];
     return (types.indexOf(rule.type) !== -1);
   }
 
   /** @private */
-  static _validateSignatures() {
+  private static _validateSignatures() {
 
     let invalidSignatures = signatures
         .map((signature) => {
@@ -249,7 +282,7 @@ class DetectFileType {
   }
 
   /** @private */
-  static _validateSignature(signature) {
+  private static _validateSignature(signature) {
 
     if (!('type' in signature)) {
       return {
@@ -291,7 +324,7 @@ class DetectFileType {
   }
 
   /** @private */
-  static _validateRules(rules) {
+  private static _validateRules(rules) {
 
     let validations = rules.map((rule) => {
       let isRuleTypeValid = this._validateRuleType(rule);
@@ -333,7 +366,7 @@ class DetectFileType {
   }
 
   /** @private */
-  static _getRuleDetection() {
+  private static _getRuleDetection() {
     let v = false;
   
     for (let i = 0, len = arguments.length; i < len; i++) {
@@ -353,7 +386,7 @@ class DetectFileType {
     return v;
   }
 
-  static _getTextBuffer(buffer) {
+  private static _getTextBuffer(buffer) {
     if (buffer.textRecoded === undefined) {
       let textBuffer = null;
 
