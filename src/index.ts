@@ -4,7 +4,7 @@ import signatures from './signatures.json';
 import Jschardet from 'jschardet';
 import Iconv from 'iconv-lite';
 
-export type Rule = {
+export interface Rule {
   type: string;
   start?: number;
   and?: number;
@@ -12,7 +12,7 @@ export type Rule = {
   rules?: Rule[];
 };
 
-export type Signature = {
+export interface Signature {
   type: string;
   ext?: string;
   mime?: string;
@@ -20,7 +20,7 @@ export type Signature = {
   desc?: string;
 }
 
-export type FileTypeResult = {
+export interface FileTypeResult {
   ext: string;
   mime: string;
   iana?: string;
