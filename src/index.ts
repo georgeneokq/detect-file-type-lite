@@ -26,14 +26,11 @@ export interface FileTypeResult {
   iana?: string;
 };
 
-/** @type {(function(Buffer):FileTypeResult)[]} */
-const customFunctions: ((buffer: Buffer) => FileTypeResult | Boolean)[] = [];
+export type CustomFunction = (buffer: Buffer) => FileTypeResult | Boolean
 
 const iconvOptions = {
   stripBOM: true,
 };
-
-let validatedSignaturesCache = false;
 
 /**
  * @typedef {Object} FileTypeResult
@@ -44,17 +41,22 @@ let validatedSignaturesCache = false;
 /** */
 
 export class FileTypeDetector {
-  static fromBuffer(buffer: Buffer | Uint8Array): FileTypeResult | null {
+
+  private customFunctions: CustomFunction[] = []
+
+  private validatedSignaturesCache = false
+
+  fromBuffer(buffer: Buffer | Uint8Array): FileTypeResult | null {
     let result = null;
 
-    if (!validatedSignaturesCache)
-      validatedSignaturesCache = FileTypeDetector._validateSignatures();
+    if (!this.validatedSignaturesCache)
+      this.validatedSignaturesCache = this._validateSignatures();
 
     if (!(buffer instanceof Buffer))
       buffer = Buffer.from(buffer);
       
     // Run custom functions first
-    customFunctions.every((fn) => {
+    this.customFunctions.every((fn) => {
       const fnResult = fn(buffer);
       if (fnResult) {
         console.log(fnResult)
@@ -68,12 +70,12 @@ export class FileTypeDetector {
       return result
 
     signatures.every((signature) => {
-      let detection = FileTypeDetector._detect(buffer, signature.rules);
+      let detection = this._detect(buffer, signature.rules);
 
       if (!detection && signature.recode_text === true) {
-        let textBuffer = FileTypeDetector._getTextBuffer(buffer);
+        let textBuffer = this._getTextBuffer(buffer);
         if (textBuffer !== null) {
-          detection = FileTypeDetector._detect(textBuffer, signature.rules);
+          detection = this._detect(textBuffer, signature.rules);
         }
       }
 
@@ -81,7 +83,7 @@ export class FileTypeDetector {
         delete buffer.textRecoded;
 
       if (detection) {
-        result = FileTypeDetector._getRuleDetection({}, signature, detection);
+        result = this._getRuleDetection({}, signature, detection);
         return false;
       }
 
@@ -92,18 +94,18 @@ export class FileTypeDetector {
     return result
   }
 
-  static addSignature(signature: Signature) {
-    validatedSignaturesCache = false;
+  addSignature(signature: Signature) {
+    this.validatedSignaturesCache = false;
     signatures.push(signature);
   }
 
   /** @param {function(Buffer):FileTypeResult} fn */
-  static addCustomFunction(fn: (buffer: Buffer) => FileTypeResult | Boolean) {
-    customFunctions.push(fn);
+  addCustomFunction(fn: (buffer: Buffer) => FileTypeResult | Boolean) {
+    this.customFunctions.push(fn);
   }
 
   /** @private */
-  private static _detect(buffer, rules, type, searchData) {
+  private _detect(buffer, rules, type, searchData) {
     if (!type) {
       type = 'and';
     }
@@ -229,7 +231,7 @@ export class FileTypeDetector {
   }
 
   /** @private */
-  private static _isReturnFalse(isDetected, type) {
+  private _isReturnFalse(isDetected, type) {
     if (!isDetected && type === 'and') {
       return false;
     }
@@ -242,13 +244,13 @@ export class FileTypeDetector {
   }
 
   /** @private */
-  private static _validateRuleType(rule) {
+  private _validateRuleType(rule) {
     const types = ['or', 'and', 'contains', 'notContains', 'equal', 'notEqual', 'default'];
     return (types.indexOf(rule.type) !== -1);
   }
 
   /** @private */
-  private static _validateSignatures() {
+  private _validateSignatures() {
 
     let invalidSignatures = signatures
         .map((signature) => {
@@ -264,7 +266,7 @@ export class FileTypeDetector {
   }
 
   /** @private */
-  private static _validateSignature(signature) {
+  private _validateSignature(signature) {
 
     if (!('type' in signature)) {
       return {
@@ -306,7 +308,7 @@ export class FileTypeDetector {
   }
 
   /** @private */
-  private static _validateRules(rules) {
+  private _validateRules(rules) {
 
     let validations = rules.map((rule) => {
       let isRuleTypeValid = this._validateRuleType(rule);
@@ -348,7 +350,7 @@ export class FileTypeDetector {
   }
 
   /** @private */
-  private static _getRuleDetection() {
+  private _getRuleDetection() {
     let v = false;
   
     for (let i = 0, len = arguments.length; i < len; i++) {
@@ -368,7 +370,7 @@ export class FileTypeDetector {
     return v;
   }
 
-  private static _getTextBuffer(buffer) {
+  private _getTextBuffer(buffer) {
     if (buffer.textRecoded === undefined) {
       let textBuffer = null;
 
