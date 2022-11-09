@@ -1,37 +1,18 @@
 import type { CustomFunction } from "."
-import { FileTypeResult } from "."
 import AdmZip from 'adm-zip'
-
-// https://learn.microsoft.com/ja-jp/archive/blogs/vsofficedeveloper/office-2007-file-format-mime-types-for-http-content-streaming-2
-const officeContentTypesMapping: Record<string, FileTypeResult> = {
-  'ContentType="application/vnd.ms-excel.sheet.binary.macroEnabled.main': {
-    ext: 'xlsb',
-    mime: 'application/vnd.ms-excel.sheet.binary.macroEnabled.12'
-  },
-  'ContentType="application/vnd.ms-excel.sheet.macroEnabled': {
-    ext: 'xlsm',
-    mime: 'application/vnd.ms-excel.sheet.macroEnabled.12'
-  },
-  'ContentType=\"application/vnd.ms-office.vbaProject': {
-    ext: 'xlsm',
-    mime: 'application/vnd.ms-excel.sheet.macroEnabled.12'
-  },
-  'ContentType="application/vnd.ms-excel.addin.macroEnabled': {
-    ext: 'xlam',
-    mime: 'application/vnd.ms-excel.addin.macroEnabled.12'
-  },
-}
 
 const customFunctions: CustomFunction[] = [
   function zipBasedTypes(buffer) {
     // If its a zip file, unzip the contents
     const zipMagicBytes = Buffer.from([0x50, 0x4B, 0x03, 0x04])
     if(buffer.compare(zipMagicBytes, 0, zipMagicBytes.length, 0, zipMagicBytes.length) != 0)
-      return false
+    return false
     
     const zip = new AdmZip(buffer)
     const zipEntries: any[] = zip.getEntries()
     const entryNames: string[] = zipEntries.map(entry => entry.entryName)
+    
+    // https://learn.microsoft.com/ja-jp/archive/blogs/vsofficedeveloper/office-2007-file-format-mime-types-for-http-content-streaming-2
 
     // Excel file
     if(entryNames.some(name => name.startsWith('xl/')) && entryNames.includes('[Content_Types].xml')) {
