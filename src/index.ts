@@ -1,8 +1,9 @@
 // @ts-nocheck
 
-import signatures from './signatures.json';
 import Jschardet from 'jschardet';
 import Iconv from 'iconv-lite';
+import signatures from './signatures.json';
+import customFunctions from './custom-functions';
 
 export interface Rule {
   type: string;
@@ -46,6 +47,12 @@ export class FileTypeDetector {
 
   private validatedSignaturesCache = false
 
+  constructor() {
+    customFunctions.forEach((func) => {
+      this.customFunctions.push(func)
+    })
+  }
+
   fromBuffer(buffer: Buffer | Uint8Array): FileTypeResult | null {
     let result = null;
 
@@ -59,7 +66,6 @@ export class FileTypeDetector {
     this.customFunctions.every((fn) => {
       const fnResult = fn(buffer);
       if (fnResult) {
-        console.log(fnResult)
         result = fnResult;
         return false;
       };
