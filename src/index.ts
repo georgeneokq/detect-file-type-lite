@@ -27,7 +27,7 @@ export interface FileTypeResult {
   iana?: string;
 };
 
-export type CustomFunction = (buffer: Buffer) => FileTypeResult | Boolean
+export type CustomFunction = (buffer: Buffer) => Promise<FileTypeResult | Boolean> | FileTypeResult | Boolean
 
 const iconvOptions = {
   stripBOM: true,
@@ -53,7 +53,7 @@ export class FileTypeDetector {
     })
   }
 
-  fromBuffer(buffer: Buffer | Uint8Array): FileTypeResult | null {
+  async fromBuffer(buffer: Buffer | Uint8Array): FileTypeResult | null {
     let result = null;
 
     if (!this.validatedSignaturesCache)
@@ -62,15 +62,17 @@ export class FileTypeDetector {
     if (!(buffer instanceof Buffer))
       buffer = Buffer.from(buffer);
       
-    // Run custom functions first
-    this.customFunctions.every((fn) => {
-      const fnResult = fn(buffer);
-      if (fnResult) {
-        result = fnResult;
-        return false;
-      };
-      return true;
-    });
+    // Run custom functions first. Custom functions can be async.
+    for(let i = 0; i < customFunctions.length; i++) {
+      const func = this.customFunctions[i]
+
+      // Run every function with await, in case they are async
+      let fnResult = await func(buffer)
+      if(fnResult) {
+        result = fnResult
+        break
+      }
+    }
 
     if(result)
       return result
