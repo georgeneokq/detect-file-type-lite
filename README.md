@@ -17,10 +17,11 @@ Removed dependency on node's `fs` module to enable this package to be used on br
 
 ```js
   import { readFile } from 'fs/promises'
-  import { fromBuffer } from 'detect-file-type-lite'
+  import FileTypeDetector from 'detect-file-type-lite'
 
+  const fileTypeDetector = new FileTypeDetector()
   const buffer = await readFile('img.jpg')
-  const result = fromBuffer(buffer);
+  const result = await fileTypeDetector.fromBuffer(buffer);
   console.log(result.ext)  // jpg
 ```
 
@@ -41,10 +42,11 @@ Add custom function which receive buffer and trying to detect file type.
 This method needed for more complicated cases like DLL for example. A DLL file will be detected as a normal EXE file, unless you perform deeper checks on its headers.
 
 ```js
-const detect = require('detect-file-type');
-const fs = require('fs/promises')
+import { readFile } from 'fs/promises'
+import FileTypeDetector from 'detect-file-type-lite'
+const fileTypeDetector = new FileTypeDetector()
 
-FileTypeDetector.addCustomFunction((buffer: Buffer) => {
+fileTypeDetector.addCustomFunction((buffer: Buffer) => {
   if(buffer.length < 2) return false
   
   const mzHeader = Buffer.from([0x4D, 0x5A])
@@ -63,8 +65,8 @@ FileTypeDetector.addCustomFunction((buffer: Buffer) => {
   return false
 })
 
-const buf = await fs.readFile('winrsmgr.dll')
-const res = FileTypeDetector.fromBuffer(buf)
+const buf = await readFile('winrsmgr.dll')
+const res = await fileTypeDetector.fromBuffer(buf)
 console.log(res)  // { ext: 'dll', mime: 'application/octet-stream' }
 ```
 
