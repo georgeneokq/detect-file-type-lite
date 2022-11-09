@@ -26,15 +26,15 @@ Removed dependency on node's `fs` module to enable this package to be used on br
 
 ## API
 
-### fromBuffer(buffer)
+### fromBuffer(buffer) => Promise\<FileTypeResult\>
 Detect file type from buffer
 - `buffer` - uint8array/Buffer
 
-### addSignature(signature)
+### addSignature(signature) => void
 Add new signature for file type detecting
 - `signature` - a signature. See section about it below
 
-### addCustomFunction(fn)
+### addCustomFunction(fn) => void
 Add custom function which receive buffer and trying to detect file type.
 - `fn` - function which receive buffer
 
@@ -71,7 +71,7 @@ console.log(res)  // { ext: 'dll', mime: 'application/octet-stream' }
 Some custom functions, including the above example on DLL file type detection, are already declared during object instantiation.
 See [custom-functions.ts](https://github.com/georgeneokq/detect-file-type-lite/blob/main/src/custom-functions.ts) for more details.
 
-**Note**: Custom function should be pure (without any async operations)
+Custom functions can be async.
 
 ## Signature and creating your own signatures
 Detecting of file type work via signatures.

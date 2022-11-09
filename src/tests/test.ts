@@ -7,7 +7,7 @@ describe('file formats', async () => {
   it('should detect jpg', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.jpg`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'jpg',
       mime: 'image/jpeg'
@@ -17,7 +17,7 @@ describe('file formats', async () => {
   it('should detect png', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.png`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'png',
       mime: 'image/png'
@@ -27,7 +27,7 @@ describe('file formats', async () => {
   it('should detect gif', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.gif`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'gif',
       mime: 'image/gif'
@@ -37,7 +37,7 @@ describe('file formats', async () => {
   it('should detect bmp', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.bmp`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'bmp',
       mime: 'image/bmp'
@@ -47,7 +47,7 @@ describe('file formats', async () => {
   it('should detect jxr', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.jxr`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'jxr',
       mime: 'image/vnd.ms-photo'
@@ -57,7 +57,7 @@ describe('file formats', async () => {
   it('should detect psd', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.psd`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'psd',
       mime: 'image/vnd.adobe.photoshop'
@@ -67,7 +67,7 @@ describe('file formats', async () => {
   it('should detect zip', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.zip`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'zip',
       mime: 'application/zip'
@@ -77,7 +77,7 @@ describe('file formats', async () => {
   it('should detect epub', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.epub`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'epub',
       mime: 'application/epub+zip'
@@ -87,7 +87,7 @@ describe('file formats', async () => {
   it('should detect xpi', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.xpi`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'xpi',
       mime: 'application/x-xpinstall'
@@ -97,7 +97,7 @@ describe('file formats', async () => {
   it('should detect tar', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.tar`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'tar',
       mime: 'application/x-tar'
@@ -107,7 +107,7 @@ describe('file formats', async () => {
   it('should detect rar', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.rar`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'rar',
       mime: 'application/x-rar-compressed'
@@ -117,7 +117,7 @@ describe('file formats', async () => {
   it('should detect gz', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.tar.gz`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'gz',
       mime: 'application/gzip'
@@ -127,7 +127,7 @@ describe('file formats', async () => {
   it('should detect bz2', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.bz2`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'bz2',
       mime: 'application/x-bzip2'
@@ -137,7 +137,7 @@ describe('file formats', async () => {
   it('should detect 7z', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.7z`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: '7z',
       mime: 'application/x-7z-compressed'
@@ -147,7 +147,7 @@ describe('file formats', async () => {
   it('should detect dmg', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.dmg`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'dmg',
       mime: 'application/x-apple-diskimage'
@@ -157,7 +157,7 @@ describe('file formats', async () => {
   it('should detect mp4 (M4V+M4A)', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.mp4`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'mp4',
       mime: 'video/mp4'
@@ -167,7 +167,7 @@ describe('file formats', async () => {
   it('should detect mp4 (mpeg42)', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture-mpeg42.mp4`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'mp4',
       mime: 'video/mp4'
@@ -177,7 +177,7 @@ describe('file formats', async () => {
   it('should detect mp4 (isom)', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture-isom.mp4`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'mp4',
       mime: 'video/mp4'
@@ -187,7 +187,7 @@ describe('file formats', async () => {
   it('should detect m4v', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.m4v`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'm4v',
       mime: 'video/mp4'
@@ -197,7 +197,7 @@ describe('file formats', async () => {
   it('should detect midi', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.mid`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'mid',
       mime: 'audio/midi'
@@ -207,7 +207,7 @@ describe('file formats', async () => {
   it('should detect mkv', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.mkv`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'mkv',
       mime: 'video/x-matroska'
@@ -217,7 +217,7 @@ describe('file formats', async () => {
   it('should detect webm', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.webm`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'webm',
       mime: 'video/webm'
@@ -227,7 +227,7 @@ describe('file formats', async () => {
   it('should detect wma', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.wma`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'wma',
       mime: 'audio/x-ms-wma'
@@ -238,7 +238,7 @@ describe('file formats', async () => {
   it.skip('should detect wmv', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.wmv`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'wmv',
       mime: 'video/x-ms-wmv'
@@ -248,7 +248,7 @@ describe('file formats', async () => {
   it('should detect mpg', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.mpg`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'mpg',
       mime: 'video/mpeg'
@@ -258,7 +258,7 @@ describe('file formats', async () => {
   it('should detect mp3', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.mp3`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'mp3',
       mime: 'audio/mpeg'
@@ -268,7 +268,7 @@ describe('file formats', async () => {
   it('should detect m4a', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.m4a`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'm4a',
       mime: 'audio/mp4'
@@ -278,7 +278,7 @@ describe('file formats', async () => {
   it('should detect 3gpp', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.3gp`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: '3gp',
       mime: 'video/3gpp'
@@ -288,7 +288,7 @@ describe('file formats', async () => {
   it('should detect opus', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.opus`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'opus',
       mime: 'audio/opus'
@@ -298,7 +298,7 @@ describe('file formats', async () => {
   it('should detect ogg', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.ogg`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'ogg',
       mime: 'audio/ogg'
@@ -308,7 +308,7 @@ describe('file formats', async () => {
   it('should detect oga', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.oga`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'oga',
       mime: 'audio/ogg'
@@ -318,7 +318,7 @@ describe('file formats', async () => {
   it('should detect ogv', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.ogv`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'ogv',
       mime: 'video/ogg'
@@ -328,7 +328,7 @@ describe('file formats', async () => {
   it('should detect spx', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.spx`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'spx',
       mime: 'audio/ogg'
@@ -338,7 +338,7 @@ describe('file formats', async () => {
   it('should detect flac', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.flac`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'flac',
       mime: 'audio/x-flac'
@@ -348,7 +348,7 @@ describe('file formats', async () => {
   it('should detect wav', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.wav`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'wav',
       mime: 'audio/x-wav'
@@ -358,7 +358,7 @@ describe('file formats', async () => {
   it('should detect amr', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.amr`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'amr',
       mime: 'audio/amr'
@@ -368,7 +368,7 @@ describe('file formats', async () => {
   it('should detect pdf', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.pdf`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'pdf',
       mime: 'application/pdf'
@@ -378,7 +378,7 @@ describe('file formats', async () => {
   it('should detect exe', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.exe`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'exe',
       mime: 'application/x-msdownload',
@@ -389,7 +389,7 @@ describe('file formats', async () => {
   it('should detect swf', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.swf`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'swf',
       mime: 'application/x-shockwave-flash',
@@ -400,7 +400,7 @@ describe('file formats', async () => {
   it('should detect rtf', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.rtf`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'rtf',
       mime: 'application/rtf'
@@ -410,7 +410,7 @@ describe('file formats', async () => {
   it('should detect mov', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.mov`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'mov',
       mime: 'video/quicktime'
@@ -420,7 +420,7 @@ describe('file formats', async () => {
   it('should detect avi', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.avi`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'avi',
       mime: 'video/x-msvideo'
@@ -430,7 +430,7 @@ describe('file formats', async () => {
   it('should detect woff', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.woff`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'woff',
       mime: 'application/font-woff',
@@ -441,7 +441,7 @@ describe('file formats', async () => {
   it('should detect woff2', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.woff2`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'woff2',
       mime: 'application/font-woff',
@@ -452,7 +452,7 @@ describe('file formats', async () => {
   it('should detect eot', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.eot`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'eot',
       mime: 'application/vnd.ms-fontobject'
@@ -462,7 +462,7 @@ describe('file formats', async () => {
   it('should detect ttf', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.ttf`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'ttf',
       mime: 'application/font-sfnt',
@@ -473,7 +473,7 @@ describe('file formats', async () => {
   it('should detect otf', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.otf`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'otf',
       mime: 'application/font-sfnt',
@@ -484,7 +484,7 @@ describe('file formats', async () => {
   it('should detect ico', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.ico`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'ico',
       mime: 'image/x-icon',
@@ -495,7 +495,7 @@ describe('file formats', async () => {
   it('should detect flv', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.flv`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'flv',
       mime: 'video/x-flv'
@@ -505,7 +505,7 @@ describe('file formats', async () => {
   it('should detect ps', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.ps`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'ps',
       mime: 'application/postscript'
@@ -515,7 +515,7 @@ describe('file formats', async () => {
   it('should detect xz', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.tar.xz`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'xz',
       mime: 'application/x-xz'
@@ -525,7 +525,7 @@ describe('file formats', async () => {
   it('should detect sqlite', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.sqlite`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'sqlite',
       mime: 'application/x-sqlite3',
@@ -536,7 +536,7 @@ describe('file formats', async () => {
   it('should detect nes', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.nes`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'nes',
       mime: 'application/x-nintendo-nes-rom'
@@ -546,7 +546,7 @@ describe('file formats', async () => {
   it('should detect crx', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.crx`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'crx',
       mime: 'application/x-google-chrome-extension'
@@ -556,7 +556,7 @@ describe('file formats', async () => {
   it('should detect cab', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.cab`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'cab',
       mime: 'application/vnd.ms-cab-compressed'
@@ -566,7 +566,7 @@ describe('file formats', async () => {
   it('should detect deb', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.deb`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'deb',
       mime: 'application/x-deb'
@@ -576,7 +576,7 @@ describe('file formats', async () => {
   it('should detect ar', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.ar`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'ar',
       mime: 'application/x-unix-archive'
@@ -586,7 +586,7 @@ describe('file formats', async () => {
   it('should detect rpm', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.rpm`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'rpm',
       mime: 'application/x-rpm'
@@ -596,7 +596,7 @@ describe('file formats', async () => {
   it('should detect tar.Z', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.tar.Z`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'Z',
       mime: 'application/x-compress'
@@ -606,7 +606,7 @@ describe('file formats', async () => {
   it('should detect lz', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.tar.lz`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'lz',
       mime: 'application/x-lzip'
@@ -616,7 +616,7 @@ describe('file formats', async () => {
   it('should detect msi', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.msi`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'msi',
       mime: 'application/x-msi'
@@ -626,7 +626,7 @@ describe('file formats', async () => {
   it('should detect svg', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.svg`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'svg',
       mime: 'image/svg+xml'
@@ -636,7 +636,7 @@ describe('file formats', async () => {
   it('should detect svg with xml header', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture-header.svg`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'svg',
       mime: 'image/svg+xml'
@@ -646,7 +646,7 @@ describe('file formats', async () => {
   it('should detect xml', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.xml`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'xml',
       mime: 'application/xml'
@@ -656,7 +656,7 @@ describe('file formats', async () => {
   it('should detect flif', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.flif`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'flif',
       mime: 'image/flif'
@@ -666,7 +666,7 @@ describe('file formats', async () => {
   it('should detect html started with html tag', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture-simple-html.html`)
     const fileTypeDetector = new FileTypeDetector()
-    const result = fileTypeDetector.fromBuffer(buffer)
+    const result = await fileTypeDetector.fromBuffer(buffer)
     assert.deepEqual(result, {
       ext: 'html',
       mime: 'text/html'
@@ -676,7 +676,7 @@ describe('file formats', async () => {
   it('should detect dll', async () => {
     const fileTypeDetector = new FileTypeDetector()
     const buf = await readFile(`${__dirname}/test-files/fixture.dll`)
-    const result = fileTypeDetector.fromBuffer(buf)
+    const result = await fileTypeDetector.fromBuffer(buf)
     assert.deepEqual(result, {
       ext: 'dll',
       mime: 'application/octet-stream'
@@ -686,7 +686,7 @@ describe('file formats', async () => {
   it('should detect docx', async() => {
     const fileTypeDetector = new FileTypeDetector()
     const buf = await readFile(`${__dirname}/test-files/fixture.docx`)
-    const result = fileTypeDetector.fromBuffer(buf)
+    const result = await fileTypeDetector.fromBuffer(buf)
     assert.deepEqual(result, {
       ext: 'docx',
       mime: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
@@ -696,7 +696,7 @@ describe('file formats', async () => {
   it('should detect docm', async() => {
     const fileTypeDetector = new FileTypeDetector()
     const buf = await readFile(`${__dirname}/test-files/fixture.docm`)
-    const result = fileTypeDetector.fromBuffer(buf)
+    const result = await fileTypeDetector.fromBuffer(buf)
     assert.deepEqual(result, {
       ext: 'docm',
       mime: 'application/vnd.ms-word.document.macroEnabled.12'
@@ -706,7 +706,7 @@ describe('file formats', async () => {
   it('should detect xlsx', async() => {
     const fileTypeDetector = new FileTypeDetector()
     const buf = await readFile(`${__dirname}/test-files/fixture.xlsx`)
-    const result = fileTypeDetector.fromBuffer(buf)
+    const result = await fileTypeDetector.fromBuffer(buf)
     assert.deepEqual(result, {
       ext: 'xlsx',
       mime: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -716,7 +716,7 @@ describe('file formats', async () => {
   it('should detect xlsm', async() => {
     const fileTypeDetector = new FileTypeDetector()
     const buf = await readFile(`${__dirname}/test-files/fixture.xlsm`)
-    const result = fileTypeDetector.fromBuffer(buf)
+    const result = await fileTypeDetector.fromBuffer(buf)
     assert.deepEqual(result, {
       ext: 'xlsm',
       mime: 'application/vnd.ms-excel.sheet.macroEnabled.12'
@@ -726,7 +726,7 @@ describe('file formats', async () => {
   it('should detect pptm', async() => {
     const fileTypeDetector = new FileTypeDetector()
     const buf = await readFile(`${__dirname}/test-files/fixture.pptm`)
-    const result = fileTypeDetector.fromBuffer(buf)
+    const result = await fileTypeDetector.fromBuffer(buf)
     assert.deepEqual(result, {
       ext: 'pptm',
       mime: 'application/vnd.ms-word.document.macroEnabled.12'
@@ -736,7 +736,7 @@ describe('file formats', async () => {
   it('should detect pptx', async() => {
     const fileTypeDetector = new FileTypeDetector()
     const buf = await readFile(`${__dirname}/test-files/fixture.pptx`)
-    const result = fileTypeDetector.fromBuffer(buf)
+    const result = await fileTypeDetector.fromBuffer(buf)
     assert.deepEqual(result, {
       ext: 'pptx',
       mime: 'application/vnd.openxmlformats-officedocument.presentationml.presentation'

@@ -1,22 +1,21 @@
 import type { CustomFunction } from "."
-import AdmZip from 'adm-zip'
+import JSZip from "jszip"
 
 const customFunctions: CustomFunction[] = [
-  function zipBasedTypes(buffer) {
+  async function zipBasedTypes(buffer) {
     // If its a zip file, unzip the contents
     const zipMagicBytes = Buffer.from([0x50, 0x4B, 0x03, 0x04])
     if(buffer.compare(zipMagicBytes, 0, zipMagicBytes.length, 0, zipMagicBytes.length) != 0)
-    return false
+      return false
     
-    const zip = new AdmZip(buffer)
-    const zipEntries: any[] = zip.getEntries()
-    const entryNames: string[] = zipEntries.map(entry => entry.entryName)
+    const jsZip = new JSZip()
+    const zip = await jsZip.loadAsync(buffer)
+    const entryNames = Object.keys(zip.files)
     
     // https://learn.microsoft.com/ja-jp/archive/blogs/vsofficedeveloper/office-2007-file-format-mime-types-for-http-content-streaming-2
-
     // Excel file
-    if(entryNames.some(name => name.startsWith('xl/')) && entryNames.includes('[Content_Types].xml')) {
-      const contentTypesXml: string = zipEntries[zipEntries.findIndex(zipEntry => zipEntry.entryName === '[Content_Types].xml')].getData().toString('utf8')
+    if(entryNames.some(name => name.startsWith('xl/')) && '[Content_Types].xml' in zip.files) {
+      const contentTypesXml: string = await zip.files['[Content_Types].xml'].async('string')
       if(contentTypesXml.search('ContentType="application/vnd.ms-excel.sheet.binary.macroEnabled.main') != -1) {
         return {
           ext: 'xlsb',
@@ -49,7 +48,7 @@ const customFunctions: CustomFunction[] = [
 
     // Probably a word file
     if(entryNames.some(name => name.startsWith('word/')) && entryNames.includes('[Content_Types].xml')) {
-      const contentTypesXml: string = zipEntries[zipEntries.findIndex(zipEntry => zipEntry.entryName === '[Content_Types].xml')].getData().toString('utf8')
+      const contentTypesXml: string = await zip.files['[Content_Types].xml'].async('string')
       if(contentTypesXml.search('ContentType=\"application/vnd.ms-word.document.macroEnabled') != -1) {
         return {
           ext: 'docm',
@@ -76,7 +75,7 @@ const customFunctions: CustomFunction[] = [
 
     // Probably a powerpoint file
     if(entryNames.some(name => name.startsWith('ppt/')) && entryNames.includes('[Content_Types].xml')) {
-      const contentTypesXml: string = zipEntries[zipEntries.findIndex(zipEntry => zipEntry.entryName === '[Content_Types].xml')].getData().toString('utf8')
+      const contentTypesXml: string = await zip.files['[Content_Types].xml'].async('string')
       if(contentTypesXml.search('ContentType="application/vnd.ms-powerpoint.slideshow.macroEnabled') != -1) {
         return {
           ext: 'ppsm',
