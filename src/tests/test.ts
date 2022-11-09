@@ -673,4 +673,73 @@ describe('file formats', async () => {
     })
   })
 
+  it('should detect dll', async () => {
+    const fileTypeDetector = new FileTypeDetector()
+    const buf = await readFile(`${__dirname}/test-files/fixture.dll`)
+    const result = fileTypeDetector.fromBuffer(buf)
+    assert.deepEqual(result, {
+      ext: 'dll',
+      mime: 'application/octet-stream'
+    })
+  })
+
+  it('should detect docx', async() => {
+    const fileTypeDetector = new FileTypeDetector()
+    const buf = await readFile(`${__dirname}/test-files/fixture.docx`)
+    const result = fileTypeDetector.fromBuffer(buf)
+    assert.deepEqual(result, {
+      ext: 'docx',
+      mime: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    })
+  })
+
+  it('should detect docm', async() => {
+    const fileTypeDetector = new FileTypeDetector()
+    const buf = await readFile(`${__dirname}/test-files/fixture.docm`)
+    const result = fileTypeDetector.fromBuffer(buf)
+    assert.deepEqual(result, {
+      ext: 'docm',
+      mime: 'application/vnd.ms-word.document.macroEnabled.12'
+    })
+  })
+
+  it('should detect xlsx', async() => {
+    const fileTypeDetector = new FileTypeDetector()
+    const buf = await readFile(`${__dirname}/test-files/fixture.xlsx`)
+    const result = fileTypeDetector.fromBuffer(buf)
+    assert.deepEqual(result, {
+      ext: 'xlsx',
+      mime: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    })
+  })
+
+  it('should detect xlsm', async() => {
+    const fileTypeDetector = new FileTypeDetector()
+    const buf = await readFile(`${__dirname}/test-files/fixture.xlsm`)
+    const result = fileTypeDetector.fromBuffer(buf)
+    assert.deepEqual(result, {
+      ext: 'xlsm',
+      mime: 'application/vnd.ms-excel.sheet.macroEnabled.12'
+    })
+  })
+
+  it('should detect pptm', async() => {
+    const fileTypeDetector = new FileTypeDetector()
+    const buf = await readFile(`${__dirname}/test-files/fixture.pptm`)
+    const result = fileTypeDetector.fromBuffer(buf)
+    assert.deepEqual(result, {
+      ext: 'pptm',
+      mime: 'application/vnd.ms-word.document.macroEnabled.12'
+    })
+  })
+
+  it('should detect pptx', async() => {
+    const fileTypeDetector = new FileTypeDetector()
+    const buf = await readFile(`${__dirname}/test-files/fixture.pptx`)
+    const result = fileTypeDetector.fromBuffer(buf)
+    assert.deepEqual(result, {
+      ext: 'pptx',
+      mime: 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+    })
+  })
 })
