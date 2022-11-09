@@ -10,7 +10,7 @@ Removed dependency on node's `fs` module to enable this package to be used on br
 ## Installation
 
 ```
-  npm i --save detect-file-type
+  npm i --save detect-file-type-lite
 ```
 
 ## Usage
