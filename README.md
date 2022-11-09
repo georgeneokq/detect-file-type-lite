@@ -26,7 +26,7 @@ Removed dependency on node's `fs` module to enable this package to be used on br
 
 ## API
 
-### fromBuffer(buffer) => Promise\<FileTypeResult\>
+### fromBuffer(buffer) => Promise\<FileTypeResult | null\>
 Detect file type from buffer
 - `buffer` - uint8array/Buffer
 

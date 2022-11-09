@@ -53,7 +53,7 @@ export class FileTypeDetector {
     })
   }
 
-  async fromBuffer(buffer: Buffer | Uint8Array): FileTypeResult | null {
+  async fromBuffer(buffer: Buffer | Uint8Array): Promise<FileTypeResult | null> {
     let result = null;
 
     if (!this.validatedSignaturesCache)
