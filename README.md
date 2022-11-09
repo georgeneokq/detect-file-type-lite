@@ -5,7 +5,7 @@
 Removed dependency on node's `fs` module to enable this package to be used on browsers.
 
 ### Supported types
-  jpg, png, gif, webp, flif, cr2, tif, bmp, jxr, psd, zip, epub, xpi, tar, rar, gz, bz2, 7z, dmg, mov, mp4, m4v, m4a, 3g2, 3gp, avi, wav, qcp, mid, mkv, webm, wasm, asf, wmv, wma, mpg, mp3, opus, ogg, ogv, oga, ogm, ogx, spx, flac, ape, wv, amr, pdf, exe, swf, rtf, woff, woff2, eot, ttf, otf, ico, cur, flv, ps, xz, sqlite, nes, dex, crx, elf, cab, deb, ar, rpm, Z, lz, msi, mxf, mts, blend, bpg, jp2, jpx, jpm, mj2, aif, xml, svg, mobi, heic, ktx, dcm, mpc, ics, glb, pcap, html
+  jpg, png, gif, webp, flif, cr2, tif, bmp, jxr, psd, zip, epub, xpi, tar, rar, gz, bz2, 7z, dmg, mov, mp4, m4v, m4a, 3g2, 3gp, avi, wav, qcp, mid, mkv, webm, wasm, asf, wmv, wma, mpg, mp3, opus, ogg, ogv, oga, ogm, ogx, spx, flac, ape, wv, amr, pdf, exe, swf, rtf, woff, woff2, eot, ttf, otf, ico, cur, flv, ps, xz, sqlite, nes, dex, crx, elf, cab, deb, ar, rpm, Z, lz, msi, mxf, mts, blend, bpg, jp2, jpx, jpm, mj2, aif, xml, svg, mobi, heic, ktx, dcm, mpc, ics, glb, pcap, html, dll, xlsx, xlsm, xlsb, xlam, docx, docm, dotm, dotx, pptx, pptm, ppsm, ppsx
 
 ## Installation
 
@@ -67,6 +67,9 @@ const buf = await fs.readFile('winrsmgr.dll')
 const res = FileTypeDetector.fromBuffer(buf)
 console.log(res)  // { ext: 'dll', mime: 'application/octet-stream' }
 ```
+
+Some custom functions, including the above example on DLL file type detection, are already declared during object instantiation.
+See [custom-functions.ts](https://github.com/georgeneokq/detect-file-type-lite/blob/main/src/custom-functions.ts) for more details.
 
 **Note**: Custom function should be pure (without any async operations)
 
