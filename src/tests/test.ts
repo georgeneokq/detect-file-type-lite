@@ -2,7 +2,12 @@ import { assert } from 'chai'
 import { FileTypeDetector } from '../index'
 import { readFile } from 'fs/promises'
 
-describe('file formats', async () => {
+describe('file formats', async function() {
+  /* 
+   * File type detection by signatures should not take too long.
+   * If it does, it is most likely that one of the custom functions is taking too much time to process.
+   */
+  this.timeout(200)
 
   it('should detect jpg', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.jpg`)

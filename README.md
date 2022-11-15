@@ -2,7 +2,9 @@
 
 > Detect file type by signatures. Fork of [detect-file-type](https://github.com/dimapaloskin/detect-file-type).
 
-Removed dependency on node's `fs` module to enable this package to be used on browsers.
+- Removed dependency on node's `fs` module to enable this package to be used on browsers
+- Increase performance by removing usage of text recoding
+- Typescript type definition file included
 
 ### Supported types
   jpg, png, gif, webp, flif, cr2, tif, bmp, jxr, psd, zip, epub, xpi, tar, rar, gz, bz2, 7z, dmg, mov, mp4, m4v, m4a, 3g2, 3gp, avi, wav, qcp, mid, mkv, webm, wasm, asf, wmv, wma, mpg, mp3, opus, ogg, ogv, oga, ogm, ogx, spx, flac, ape, wv, amr, pdf, exe, swf, rtf, woff, woff2, eot, ttf, otf, ico, cur, flv, ps, xz, sqlite, nes, dex, crx, elf, cab, deb, ar, rpm, Z, lz, msi, mxf, mts, blend, bpg, jp2, jpx, jpm, mj2, aif, xml, svg, mobi, heic, ktx, dcm, mpc, ics, glb, pcap, html, dll, xlsx, xlsm, xlsb, xlam, docx, docm, dotm, dotx, pptx, pptm, ppsm, ppsx

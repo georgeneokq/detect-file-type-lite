@@ -876,13 +876,18 @@
     "ext": "svg",
     "mime": "image/svg+xml",
     "rules": [
-      { "type": "or", "recode_text": true, "rules":
+      { "type": "or", "recode_text": false, "rules":
       [
         { "type": "equal", "start": 0, "end": 4, "bytes": "3c737667", "desc": "<svg" },
+        { "type": "equal", "start": 0, "end": 7, "bytes": "efbbbf3c737667", "desc": "...<svg" },
         { "type": "and", "rules":
         [
           { "type": "equal", "start": 0, "end": 6,  "bytes": "3c3f786d6c20", "desc": "<?xml " },
-          { "type": "contains", "bytes": "3c737667", "desc": "<svg" }
+          { "type": "or", "rules": [
+            { "type": "contains", "bytes": "3c737667", "desc": "<svg" },
+            { "type": "contains", "bytes": "efbbbf3c737667", "desc": "...<svg" }
+          ]
+          }
         ]
         }
       ]
@@ -894,9 +899,13 @@
     "type": "xml",
     "ext": "xml",
     "mime": "application/xml",
-    "recode_text": true,
+    "recode_text": false,
     "rules": [
-      { "type": "equal", "start": 0, "end": 6, "bytes": "3c3f786d6c20", "desc": "<?xml " }
+      { "type": "or", "rules": [
+        { "type": "equal", "start": 0, "end": 6, "bytes": "3c3f786d6c20", "desc": "<?xml " },
+        { "type": "equal", "start": 0, "end": 9, "bytes": "efbbbf3c3f786d6c20", "desc": "...<?xml " }
+      ]
+      }
     ]
   },
 
@@ -979,7 +988,7 @@
     "type": "ics",
     "ext": "ics",
     "mime": "text/calendar",
-    "recode_text": true,
+    "recode_text": false,
     "rules": [
       { "type": "equal", "start": 0, "end": 6, "bytes": "424547494e3a" }
     ]
@@ -1013,7 +1022,7 @@
     "ext": "html",
     "mime": "text/html",
     "rules": [
-      { "type": "or", "recode_text": true, "rules":
+      { "type": "or", "recode_text": false, "rules":
       [
         { "type": "contains", "bytes": "3c68746d6c" },
         { "type": "contains", "bytes": "3c00680074006d006c00" }

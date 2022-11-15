@@ -63,7 +63,7 @@ export class FileTypeDetector {
       buffer = Buffer.from(buffer);
       
     // Run custom functions first. Custom functions can be async.
-    for(let i = 0; i < customFunctions.length; i++) {
+    for(let i = 0; i < this.customFunctions.length; i++) {
       const func = this.customFunctions[i]
 
       // Run every function with await, in case they are async
@@ -79,13 +79,6 @@ export class FileTypeDetector {
 
     signatures.every((signature) => {
       let detection = this._detect(buffer, signature.rules);
-
-      if (!detection && signature.recode_text === true) {
-        let textBuffer = this._getTextBuffer(buffer);
-        if (textBuffer !== null) {
-          detection = this._detect(textBuffer, signature.rules);
-        }
-      }
 
       if (buffer.textRecoded !== undefined)
         delete buffer.textRecoded;
@@ -165,23 +158,9 @@ export class FileTypeDetector {
 
       if (rule.type === 'or') {
         result = this._detect(buffer, rule.rules, 'or', searchData);
-
-        if (!result && rule.recode_text === true) {
-          let textBuffer = this._getTextBuffer(buffer);
-          if (textBuffer !== null) {
-            result = this._detect(textBuffer, rule.rules, 'or', searchData);
-          }
-        }
       }
       else if (rule.type === 'and') {
         result = this._detect(buffer, rule.rules, 'and', searchData);
-
-        if (!result && rule.recode_text === true) {
-          let textBuffer = this._getTextBuffer(buffer);
-          if (textBuffer !== null) {
-            result = this._detect(textBuffer, rule.rules, 'and', searchData);
-          }
-        }
       }
       else if (rule.type === 'default') {
         result = rule;
@@ -378,6 +357,9 @@ export class FileTypeDetector {
     return v;
   }
 
+  /**
+   * @deprecated Multiple usages of this function causes performance issues. To be removed in future versions
+  */
   private _getTextBuffer(buffer) {
     if (buffer.textRecoded === undefined) {
       let textBuffer = null;
