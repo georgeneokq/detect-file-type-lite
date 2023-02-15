@@ -747,4 +747,24 @@ describe('file formats', async function() {
       mime: 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
     })
   })
+
+  it('should detect jar', async() => {
+    const fileTypeDetector = new FileTypeDetector()
+    const buf = await readFile(`${__dirname}/test-files/fixture.jar`)
+    const result = await fileTypeDetector.fromBuffer(buf)
+    assert.deepEqual(result, {
+      ext: 'jar',
+      mime: 'application/java-archive'
+    })
+  })
+
+  it('should detect apk', async() => {
+    const fileTypeDetector = new FileTypeDetector()
+    const buf = await readFile(`${__dirname}/test-files/fixture.apk`)
+    const result = await fileTypeDetector.fromBuffer(buf)
+    assert.deepEqual(result, {
+      ext: 'apk',
+      mime: 'application/vnd.android.package-archive'
+    })
+  })
 })

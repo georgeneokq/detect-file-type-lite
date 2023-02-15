@@ -11,6 +11,21 @@ const customFunctions: CustomFunction[] = [
     const jsZip = new JSZip()
     const zip = await jsZip.loadAsync(buffer)
     const entryNames = Object.keys(zip.files)
+
+    // Detect JAR/APK
+    if(entryNames.some(name => name.endsWith('.class')) || entryNames.includes('META-INF/MANIFEST.MF')) {
+      if(entryNames.includes('AndroidManifest.xml')) {
+        return {
+          ext: 'apk',
+          mime: 'application/vnd.android.package-archive'
+        }
+      }
+      
+      return {
+        ext: 'jar',
+        mime: 'application/java-archive'
+      }
+    }
     
     // https://learn.microsoft.com/ja-jp/archive/blogs/vsofficedeveloper/office-2007-file-format-mime-types-for-http-content-streaming-2
     // Excel file
