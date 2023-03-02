@@ -69,6 +69,16 @@ describe('file formats', async function() {
     })
   })
 
+  it('should detect encrypted zip', async () => {
+    const buffer = await readFile(`${__dirname}/test-files/fixture-encrypted.zip`)
+    const fileTypeDetector = new FileTypeDetector()
+    const result = await fileTypeDetector.fromBuffer(buffer)
+    assert.deepEqual(result, {
+      ext: 'zip',
+      mime: 'application/zip'
+    })
+  })
+
   it('should detect zip', async () => {
     const buffer = await readFile(`${__dirname}/test-files/fixture.zip`)
     const fileTypeDetector = new FileTypeDetector()

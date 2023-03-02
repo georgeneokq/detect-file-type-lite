@@ -9,7 +9,19 @@ const customFunctions: CustomFunction[] = [
       return false
     
     const jsZip = new JSZip()
-    const zip = await jsZip.loadAsync(buffer)
+
+    let zip: any
+
+    // Encrypted zip
+    try {
+      zip = await jsZip.loadAsync(buffer)
+    } catch(e) {
+      return {
+        ext: 'zip',
+        mime: 'application/zip'
+      }
+    }
+
     const entryNames = Object.keys(zip.files)
 
     // Detect JAR/APK
