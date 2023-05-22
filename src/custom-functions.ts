@@ -3,6 +3,8 @@ import JSZip from "jszip"
 
 const customFunctions: CustomFunction[] = [
   async function zipBasedTypes(buffer) {
+    if(buffer.length < 4) return false
+
     // If its a zip file, unzip the contents
     const zipMagicBytes = Buffer.from([0x50, 0x4B, 0x03, 0x04])
     if(buffer.compare(zipMagicBytes, 0, zipMagicBytes.length, 0, zipMagicBytes.length) != 0)
