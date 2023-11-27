@@ -61,16 +61,19 @@ export class FileTypeDetector {
 
     if (!(buffer instanceof Buffer))
       buffer = Buffer.from(buffer);
-      
-    // Run custom functions first. Custom functions can be async.
-    for(let i = 0; i < this.customFunctions.length; i++) {
-      const func = this.customFunctions[i]
 
+    // Run custom functions first. Custom functions can be async.
+    for (let func of customFunctions) {
       // Run every function with await, in case they are async
-      let fnResult = await func(buffer)
-      if(fnResult) {
-        result = fnResult
-        break
+      // Run in try-catch blocks for possible errors
+      try {
+        let fnResult = await func(buffer)
+        if(fnResult) {
+          result = fnResult
+          break
+        }
+      } catch (error) {
+        continue
       }
     }
 
