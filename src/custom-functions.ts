@@ -18,10 +18,12 @@ const customFunctions: CustomFunction[] = [
     try {
       zip = await jsZip.loadAsync(buffer)
     } catch(e) {
-      return {
-        ext: 'zip',
-        mime: 'application/zip'
-      }
+      if (e.message === 'Encrypted zip are not supported')
+        return {
+          ext: 'zip',
+          mime: 'application/zip'
+        }
+      throw e
     }
 
     const entryNames = Object.keys(zip.files)
