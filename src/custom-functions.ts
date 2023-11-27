@@ -133,12 +133,14 @@ const customFunctions: CustomFunction[] = [
   },
   function dll(buffer) {
       if(buffer.length < 2) return false
-      
+
       const mzHeader = Buffer.from([0x4D, 0x5A])
       if(buffer.compare(mzHeader, 0, mzHeader.length, 0, mzHeader.length) != 0) return false
 
       const PE_HEADER_OFFSET = buffer.readUInt32LE(0x3c)
       const CHARACTERISTICS_OFFSET = PE_HEADER_OFFSET + 0x16
+      // Check if CHARACTERISTICS_OFFSET is within buffer range
+      if (CHARACTERISTICS_OFFSET > buffer.length - 2) return false
       const characteristics = buffer.readUInt16LE(CHARACTERISTICS_OFFSET)
       // IMAGE_FILE_DLL == 0x2000
       if((characteristics & 0x2000) === 0x2000) {
